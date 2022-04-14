@@ -2,8 +2,53 @@ import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
   final VoidCallback resetHandler;
+  final int totalScored;
 
-  const Result({Key? key, required this.resetHandler}) : super(key: key);
+  const Result({
+    Key? key,
+    required this.resetHandler,
+    required this.totalScored,
+  }) : super(key: key);
+
+  String resultPhrase() {
+    String resultText;
+
+    if (totalScored == 6) {
+      resultText = 'Fantastic';
+    } else if (totalScored > 5) {
+      resultText = 'Awesome';
+    } else if (totalScored > 4) {
+      resultText = 'Good';
+    } else if (totalScored > 2) {
+      resultText = 'Better';
+    } else if (totalScored > 0) {
+      resultText = 'Don\'t worry ,Never Stop Learning';
+    } else {
+      resultText = 'Bad';
+    }
+
+    return resultText;
+  }
+
+  Color resultPhraseColor() {
+    Color color;
+    if (totalScored == 6) {
+      color = Colors.green;
+    } else if (totalScored > 5) {
+      color = Colors.blue;
+    } else if (totalScored > 4) {
+      color = Colors.indigoAccent;
+    } else if (totalScored > 2) {
+      color = Colors.grey;
+    } else if (totalScored > 0) {
+      color = Colors.amber;
+    } else {
+      color = Colors.red;
+    }
+
+    return color;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,19 +56,29 @@ class Result extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Center(
+          Center(
             child: Text(
-              'Yeah!!!!  You did it!!!!',
+              resultPhrase(),
+              textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.green,
+                color: resultPhraseColor(),
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
+          Text(
+            "You've scored $totalScored out of 6",
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           ElevatedButton(
             onPressed: resetHandler,
-            child: const Text('You wanna try again'),
+            child: const Text(
+              'You wanna try again',
+            ),
           ),
         ],
       ),
